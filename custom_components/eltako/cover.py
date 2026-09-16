@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any
 
 from eltakobus.util import AddressExpression
-from eltakobus.eep import *
+from eltakobus.eep import H5_3F_7F, G5_3F_7F, EEP
 
 from homeassistant import config_entries
 from homeassistant.components.cover import CoverEntity, CoverEntityFeature, ATTR_POSITION, ATTR_TILT_POSITION
@@ -143,7 +143,7 @@ class EltakoCover(EltakoEntity, CoverEntity, RestoreEntity):
             self.send_message(msg)
 
         else:
-            LOGGER.warn("[%s %s] Sender EEP %s not supported.", Platform.COVER, str(self.dev_id), self._sender_eep.eep_string)
+            LOGGER.warning("[%s %s] Sender EEP %s not supported.", Platform.COVER, str(self.dev_id), self._sender_eep.eep_string)
             return
         
         #TODO: ... setting state should be comment out
@@ -169,7 +169,7 @@ class EltakoCover(EltakoEntity, CoverEntity, RestoreEntity):
             self.send_message(msg)
 
         else:
-            LOGGER.warn("[%s %s] Sender EEP %s not supported.", Platform.COVER, str(self.dev_id), self._sender_eep.eep_string)
+            LOGGER.warning("[%s %s] Sender EEP %s not supported.", Platform.COVER, str(self.dev_id), self._sender_eep.eep_string)
             return
         
         #TODO: ... setting state should be comment out
@@ -188,6 +188,10 @@ class EltakoCover(EltakoEntity, CoverEntity, RestoreEntity):
         address, _ = self._sender_id
         position = kwargs[ATTR_POSITION]
         
+        direction = None
+        time = 0
+        command = 0x00
+
         if position == self._attr_current_cover_position:
             return
         elif position == 100:
@@ -205,6 +209,9 @@ class EltakoCover(EltakoEntity, CoverEntity, RestoreEntity):
             time = max(1,min(int(((self._attr_current_cover_position - position) / 100.0) * self._time_closes), 255))
             # try to prevent covers moving completely up or down when time = 0
 
+        if direction is None:
+            return
+
         if self._sender_eep == H5_3F_7F:
             if direction == "up":
                 command = 0x01
@@ -215,7 +222,7 @@ class EltakoCover(EltakoEntity, CoverEntity, RestoreEntity):
             self.send_message(msg)
 
         else:
-            LOGGER.warn("[%s %s] Sender EEP %s not supported.", Platform.COVER, str(self.dev_id), self._sender_eep.eep_string)
+            LOGGER.warning("[%s %s] Sender EEP %s not supported.", Platform.COVER, str(self.dev_id), self._sender_eep.eep_string)
             return
         
         if self.general_settings[CONF_FAST_STATUS_CHANGE]:
@@ -326,6 +333,10 @@ class EltakoCover(EltakoEntity, CoverEntity, RestoreEntity):
         address, _ = self._sender_id
         tilt_position = kwargs[ATTR_TILT_POSITION]
         
+        direction = None
+        command = 0x00
+        sleeptime = 0.0
+
         if tilt_position == self._attr_current_cover_tilt_position:
             return
         elif tilt_position > self._attr_current_cover_tilt_position:
@@ -334,6 +345,9 @@ class EltakoCover(EltakoEntity, CoverEntity, RestoreEntity):
         elif tilt_position < self._attr_current_cover_tilt_position:
             direction = "down"
             sleeptime = min((((self._attr_current_cover_tilt_position - tilt_position) / 100.0 * self._time_tilts / 10.0) ), 255.0)
+
+        if direction is None:
+            return
 
         if self._sender_eep == H5_3F_7F:
             if direction == "up":
