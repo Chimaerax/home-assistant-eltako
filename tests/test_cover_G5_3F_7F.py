@@ -209,7 +209,7 @@ class TestCover(unittest.TestCase):
         self.assertEqual(
             self.last_sent_command.body,
             b'k\x07\x00\x05\x02\x08\x00\x00\xb1\x06\x00')
-        self.assertEqual(ec._attr_is_closing, True)
+        self.assertEqual(ec._attr_is_closing, False)
         self.assertEqual(ec._attr_is_opening, False)
         self.last_sent_command = None
 
@@ -219,7 +219,7 @@ class TestCover(unittest.TestCase):
             self.last_sent_command.body,
             b'k\x07\x00\x05\x01\x08\x00\x00\xb1\x06\x00')
         self.assertEqual(ec._attr_is_closing, False)
-        self.assertEqual(ec._attr_is_opening, True)
+        self.assertEqual(ec._attr_is_opening, False)
         self.last_sent_command = None
         
         ec._attr_current_cover_position = 100
@@ -227,7 +227,7 @@ class TestCover(unittest.TestCase):
         self.assertEqual(
             self.last_sent_command.body,
             b'k\x07\x00\x0b\x02\x08\x00\x00\xb1\x06\x00')
-        self.assertEqual(ec._attr_is_closing, True)
+        self.assertEqual(ec._attr_is_closing, False)
         self.assertEqual(ec._attr_is_opening, False)
         self.last_sent_command = None
 
@@ -237,7 +237,7 @@ class TestCover(unittest.TestCase):
             self.last_sent_command.body,
             b'k\x07\x00\x0b\x01\x08\x00\x00\xb1\x06\x00')
         self.assertEqual(ec._attr_is_closing, False)
-        self.assertEqual(ec._attr_is_opening, True)
+        self.assertEqual(ec._attr_is_opening, False)
         self.last_sent_command = None
 
         ec._attr_current_cover_position = 100
@@ -254,7 +254,7 @@ class TestCover(unittest.TestCase):
         self.assertEqual(
             self.last_sent_command.body,
             b'k\x07\x00\x05\x02\x08\x00\x00\xb1\x07\x00')
-        self.assertEqual(ec._attr_is_closing, True)
+        self.assertEqual(ec._attr_is_closing, False)
         self.assertEqual(ec._attr_is_opening, False)
         self.last_sent_command = None
 
@@ -264,7 +264,7 @@ class TestCover(unittest.TestCase):
             self.last_sent_command.body,
             b'k\x07\x00\x05\x01\x08\x00\x00\xb1\x07\x00')
         self.assertEqual(ec._attr_is_closing, False)
-        self.assertEqual(ec._attr_is_opening, True)
+        self.assertEqual(ec._attr_is_opening, False)
         self.last_sent_command = None
         
         ec._attr_current_cover_position = 100
@@ -272,7 +272,7 @@ class TestCover(unittest.TestCase):
         self.assertEqual(
             self.last_sent_command.body,
             b'k\x07\x00\x0b\x02\x08\x00\x00\xb1\x07\x00')
-        self.assertEqual(ec._attr_is_closing, True)
+        self.assertEqual(ec._attr_is_closing, False)
         self.assertEqual(ec._attr_is_opening, False)
         self.last_sent_command = None
 
@@ -282,7 +282,7 @@ class TestCover(unittest.TestCase):
             self.last_sent_command.body,
             b'k\x07\x00\x0b\x01\x08\x00\x00\xb1\x07\x00')
         self.assertEqual(ec._attr_is_closing, False)
-        self.assertEqual(ec._attr_is_opening, True)
+        self.assertEqual(ec._attr_is_opening, False)
         self.last_sent_command = None
 
         ec._attr_current_cover_position = 100
