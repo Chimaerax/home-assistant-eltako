@@ -148,11 +148,11 @@ class EltakoCover(EltakoEntity, CoverEntity, RestoreEntity):
         
         #TODO: ... setting state should be comment out
         # Don't set state instead wait for response from actor so that real state of light is displayed.
-        if self.general_settings[CONF_FAST_STATUS_CHANGE]:
-            self._attr_is_opening = True
-            self._attr_is_closing = False
-            
-            self.schedule_update_ha_state()
+        # if self.general_settings[CONF_FAST_STATUS_CHANGE]:
+        #     self._attr_is_opening = True
+        #     self._attr_is_closing = False
+        #
+        #     self.schedule_update_ha_state()
     
 
     def close_cover(self, **kwargs: Any) -> None:
@@ -174,11 +174,11 @@ class EltakoCover(EltakoEntity, CoverEntity, RestoreEntity):
         
         #TODO: ... setting state should be comment out
         # Don't set state instead wait for response from actor so that real state of light is displayed.
-        if self.general_settings[CONF_FAST_STATUS_CHANGE]:
-            self._attr_is_closing = True
-            self._attr_is_opening = False
-
-            self.schedule_update_ha_state()
+        # if self.general_settings[CONF_FAST_STATUS_CHANGE]:
+        #     self._attr_is_closing = True
+        #     self._attr_is_opening = False
+        #
+        #     self.schedule_update_ha_state()
 
     def set_cover_position(self, **kwargs: Any) -> None:
         """Move the cover to a specific position."""
@@ -218,15 +218,15 @@ class EltakoCover(EltakoEntity, CoverEntity, RestoreEntity):
             LOGGER.warn("[%s %s] Sender EEP %s not supported.", Platform.COVER, str(self.dev_id), self._sender_eep.eep_string)
             return
         
-        if self.general_settings[CONF_FAST_STATUS_CHANGE]:
-            if direction == "up":
-                self._attr_is_opening = True
-                self._attr_is_closing = False
-            elif direction == "down":
-                self._attr_is_closing = True
-                self._attr_is_opening = False
-                
-            self.schedule_update_ha_state()
+        # if self.general_settings[CONF_FAST_STATUS_CHANGE]:
+        #     if direction == "up":
+        #         self._attr_is_opening = True
+        #         self._attr_is_closing = False
+        #     elif direction == "down":
+        #         self._attr_is_closing = True
+        #         self._attr_is_opening = False
+        #
+        #     self.schedule_update_ha_state()
         
 
     def stop_cover(self, **kwargs: Any) -> None:
@@ -237,11 +237,11 @@ class EltakoCover(EltakoEntity, CoverEntity, RestoreEntity):
             msg = H5_3F_7F(0, 0x00, 1).encode_message(address)
             self.send_message(msg)
         
-        if self.general_settings[CONF_FAST_STATUS_CHANGE]:
-            self._attr_is_closing = False
-            self._attr_is_opening = False
-
-            self.schedule_update_ha_state()
+        # if self.general_settings[CONF_FAST_STATUS_CHANGE]:
+        #     self._attr_is_closing = False
+        #     self._attr_is_opening = False
+        #
+        #     self.schedule_update_ha_state()
 
 
     def value_changed(self, msg):
@@ -349,10 +349,10 @@ class EltakoCover(EltakoEntity, CoverEntity, RestoreEntity):
             self.send_message(msg)
 
         
-        if self.general_settings[CONF_FAST_STATUS_CHANGE]:
-            if direction == "up":
-                self._attr_is_opening = True
-                self._attr_is_closing = False
-            elif direction == "down":
-                self._attr_is_closing = True
-                self._attr_is_opening = False
+        # if self.general_settings[CONF_FAST_STATUS_CHANGE]:
+        #     if direction == "up":
+        #         self._attr_is_opening = True
+        #         self._attr_is_closing = False
+        #     elif direction == "down":
+        #         self._attr_is_closing = True
+        #         self._attr_is_opening = False
