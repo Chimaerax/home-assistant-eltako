@@ -1,0 +1,3 @@
+## 2023-10-27 - Home Assistant blocking synchronous calls
+**Learning:** Home Assistant custom components often use synchronous methods that are executed in a thread pool. Blocking calls like `time.sleep` in these methods (e.g., `set_cover_tilt_position`) can hold a thread hostage for long periods (up to minutes), severely degrading performance and resource utilization.
+**Action:** When optimizing Home Assistant components, always convert synchronous blocking operations to async methods natively supported by Home Assistant (e.g., changing `set_cover_tilt_position` to `async_set_cover_tilt_position` and using `await asyncio.sleep()`) to free up the thread pool executor.
