@@ -247,46 +247,47 @@ class TestCover(unittest.TestCase):
 
 #############################################################################################
     def test_set_cover_tilt_position(self):
+        import asyncio
         ec = self.create_blind()
 
-        ec._attr_current_cover_position = 100
-        ec.set_cover_position(position=50)
+        ec._attr_current_cover_tilt_position = 100
+        asyncio.run(ec.async_set_cover_tilt_position(tilt_position=50))
         self.assertEqual(
             self.last_sent_command.body,
-            b'k\x07\x00\x05\x02\x08\x00\x00\xb1\x07\x00')
+            b'k\x07\x00\x00\x00\x08\x00\x00\xb1\x07\x00')
         self.assertEqual(ec._attr_is_closing, True)
         self.assertEqual(ec._attr_is_opening, False)
         self.last_sent_command = None
 
-        ec._attr_current_cover_position = 0
-        ec.set_cover_position(position=50)
+        ec._attr_current_cover_tilt_position = 0
+        asyncio.run(ec.async_set_cover_tilt_position(tilt_position=50))
         self.assertEqual(
             self.last_sent_command.body,
-            b'k\x07\x00\x05\x01\x08\x00\x00\xb1\x07\x00')
+            b'k\x07\x00\x00\x00\x08\x00\x00\xb1\x07\x00')
         self.assertEqual(ec._attr_is_closing, False)
         self.assertEqual(ec._attr_is_opening, True)
         self.last_sent_command = None
         
-        ec._attr_current_cover_position = 100
-        ec.set_cover_position(position=0)
+        ec._attr_current_cover_tilt_position = 100
+        asyncio.run(ec.async_set_cover_tilt_position(tilt_position=0))
         self.assertEqual(
             self.last_sent_command.body,
-            b'k\x07\x00\x0b\x02\x08\x00\x00\xb1\x07\x00')
+            b'k\x07\x00\x00\x00\x08\x00\x00\xb1\x07\x00')
         self.assertEqual(ec._attr_is_closing, True)
         self.assertEqual(ec._attr_is_opening, False)
         self.last_sent_command = None
 
-        ec._attr_current_cover_position = 0
-        ec.set_cover_position(position=100)
+        ec._attr_current_cover_tilt_position = 0
+        asyncio.run(ec.async_set_cover_tilt_position(tilt_position=100))
         self.assertEqual(
             self.last_sent_command.body,
-            b'k\x07\x00\x0b\x01\x08\x00\x00\xb1\x07\x00')
+            b'k\x07\x00\x00\x00\x08\x00\x00\xb1\x07\x00')
         self.assertEqual(ec._attr_is_closing, False)
         self.assertEqual(ec._attr_is_opening, True)
         self.last_sent_command = None
 
-        ec._attr_current_cover_position = 100
-        ec.set_cover_position(position=100)
+        ec._attr_current_cover_tilt_position = 100
+        asyncio.run(ec.async_set_cover_tilt_position(tilt_position=100))
         self.assertEqual(self.last_sent_command, None)
         self.last_sent_command = None
 #############################################################################################
