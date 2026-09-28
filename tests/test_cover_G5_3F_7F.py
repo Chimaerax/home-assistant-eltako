@@ -246,7 +246,7 @@ class TestCover(unittest.TestCase):
         self.last_sent_command = None
 
 #############################################################################################
-    def test_set_cover_tilt_position(self):
+    def test_set_cover_position_with_tilt(self):
         ec = self.create_blind()
 
         ec._attr_current_cover_position = 100
@@ -291,6 +291,29 @@ class TestCover(unittest.TestCase):
         self.last_sent_command = None
 #############################################################################################
 
+    def test_async_set_cover_tilt_position(self):
+        ec = self.create_blind()
+        ec._attr_current_cover_tilt_position = 100
+
+        with mock.patch('asyncio.sleep') as mock_sleep:
+            import asyncio
+
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            loop.run_until_complete(ec.async_set_cover_tilt_position(tilt_position=50))
+            loop.close()
+
+            # The command sent after sleep should be the stop command (0x00)
+            self.assertEqual(
+                self.last_sent_command.body,
+                b'k\x07\x00\x00\x00\x08\x00\x00\xb1\x07\x00'
+            )
+            mock_sleep.assert_called_once()
+
+            # verify state
+            self.assertEqual(ec._attr_is_closing, True)
+            self.assertEqual(ec._attr_is_opening, False)
+            self.last_sent_command = None
 
     def test_initial_loading_opening(self):
         ec = self.create_cover()

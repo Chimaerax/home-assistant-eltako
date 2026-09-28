@@ -1,0 +1,3 @@
+## 2024-05-19 - Synchronous Sleep Blocking the Main Thread
+**Learning:** Home Assistant relies heavily on an asynchronous event loop. Using synchronous delays like `time.sleep` in I/O operations or integration components blocks the entire executor thread, starving the application of concurrency and noticeably degrading performance.
+**Action:** When working on integrations, replace `time.sleep` with `await asyncio.sleep()` by refactoring the encompassing method to an `async def`. For `CoverEntity` methods, they also need to be properly prefixed with `async_` (e.g. `async_set_cover_tilt_position`). Be sure to properly patch any legacy tests verifying the replaced method.
