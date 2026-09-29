@@ -1,0 +1,1 @@
+## 2024-05-24 - Async IO in Home Assistant Components\n**Learning:** Home Assistant custom components must avoid synchronous blocking calls like time.sleep() as they block executor threads. Need to use asynchronous variants.\n**Action:** Replaced time.sleep with asyncio.sleep in cover.py
