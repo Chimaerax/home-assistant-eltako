@@ -1,0 +1,3 @@
+## 2024-05-24 - Do not block executor in HA components
+**Learning:** Found a synchronous `time.sleep()` call within the `set_cover_tilt_position` method in `custom_components/eltako/cover.py`. In a Home Assistant environment, running synchronous blocking calls blocks the executor threads, heavily impacting system performance and responsiveness. Even though the sleep time is short (max 255 seconds! but typically much shorter for tilt), it's bad practice.
+**Action:** The solution is to convert the method to an asynchronous `async_set_cover_tilt_position` and use `await asyncio.sleep(sleeptime)` instead of `time.sleep(sleeptime)`. This will prevent the event loop from blocking, which is a major performance and stability win for Home Assistant.
