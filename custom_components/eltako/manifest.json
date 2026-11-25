@@ -20,10 +20,10 @@
     "eltako"
   ],
   "requirements": [
-    "eltako14bus==1.0.1",
+    "eltako14bus @ https://github.com/Chimaerax/eltako14bus/archive/ee4bf3471695ec17521d8928c5fe365b57081d5a.zip",
     "enocean>=0.60.1",
     "strenum",
-    "esp2-gateway-adapter==0.2.21"
+    "esp2-gateway-adapter @ https://github.com/Chimaerax/esp2_gateway_adapter/archive/93c5053c48e50452596a16aa41cab00d6108273b.zip"
   ],
-  "version": "2.2.1rc4"
+  "version": "2.2.1rc4.post1"
 }
